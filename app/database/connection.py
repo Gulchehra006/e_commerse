@@ -1,15 +1,8 @@
-import os
-from sqlalchemy.ext.asyncio import create_async_engine,async_sessionmaker
-from dotenv import load_dotenv
-
-load_dotenv()
-
-DB_USERNAME=os.getenv("DB_USERNAME")
-DB_PASSWORD=os.getenv("DB_PASSWORD")
-DB_NAME=os.getenv("DB_NAME")
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 
-DATABASE_URL = f"mysql+aiomysql://{DB_USERNAME}:{DB_PASSWORD}@localhost/{DB_NAME}"
+DATABASE_URL = "sqlite+aiosqlite:///./database.db"
+
 
 engine = create_async_engine(
     DATABASE_URL,
@@ -18,7 +11,8 @@ engine = create_async_engine(
 
 
 SessionLocal = async_sessionmaker(
-    bind=engine
+    bind=engine,
+    expire_on_commit=False
 )
 
 
