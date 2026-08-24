@@ -52,4 +52,10 @@ async def login(
     if not verify_password(form_data.password, user.password):
         raise HTTPException(status_code=401, detail="Email yoki parol noto'g'ri")
 
-    return TokenResponse(access_token=create_access_token(user.id, user.email))
+    access_token = create_access_token(user.id, user.email)
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "role": user.role
+    }
