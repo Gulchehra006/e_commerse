@@ -30,7 +30,7 @@ current_user = Depends(get_current_user)):
         await db.refresh(obj)
         return obj
     except Exception as e:
-        await db.rollback()  # Xatolik bo'lsa tranzaksiyani bekor qilamiz
+        await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Product yaratishda xatolik! Kategoriya ID ({data.category_id}) mavjudligini tekshiring. Xatolik: {str(e)}"

@@ -14,4 +14,4 @@ class Product(Base):
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("category.id"))
 
 
-    medias: Mapped[list["Media"]] = relationship(back_populates="product",cascade="all, delete")
+    medias: Mapped[list["Media"]] = relationship(back_populates="product",cascade="all, delete-orphan")

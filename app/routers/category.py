@@ -47,7 +47,7 @@ async def update_category(category_id: int, data: CreateCategory, db: Annotated[
 
 
 @router.delete('/{category_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_category(category_id: int, db: AsyncSession = Depends(get_db),
+async def delete_category(category_id: int, db:Annotated[ AsyncSession , Depends(get_db)],
 current_user = Depends(get_current_user)):
     if current_user.role != "admin":
         raise HTTPException(403, "Sizga ruxsat yo'q")

@@ -3,30 +3,29 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.products import Product
 from app.models.review import Review
-from app.models.category import Category  # <-- Category modelini to'g'ri import qiling
-from app.models.users import User          # <-- User modelini to'g'ri import qiling
+from app.models.category import Category
+from app.models.users import User
 
 
 async def setup_test_data(db_session: AsyncSession, product_id: int = 1):
-    """Barcha bog'liq ob'ektlarni (Category, User, Product) to'g'ri ketma-ketlikda yaratadi"""
-    # 1. Category yaratish
+
     category = await db_session.get(Category, 1)
     if not category:
         category = Category(id=1, name="Test Category")
         db_session.add(category)
 
-    # 2. User yaratish (auth_provider bilan)
+
     user = await db_session.get(User, 1)
     if not user:
         user = User(
             id=1,
             email="test@example.com",
             role="admin",
-            auth_provider="local"  # <-- NOT NULL xatosini tuzatish
+            auth_provider="local"
         )
         db_session.add(user)
 
-    # 3. Product yaratish (category_id va description bilan)
+
     product = await db_session.get(Product, product_id)
     if not product:
         product = Product(
@@ -34,7 +33,7 @@ async def setup_test_data(db_session: AsyncSession, product_id: int = 1):
             name=f"Test Product {product_id}",
             price=100.0,
             description="Test tavsifi",
-            category_id=1  # <-- NOT NULL xatosini tuzatish
+            category_id=1
         )
         db_session.add(product)
 
@@ -55,7 +54,7 @@ async def test_add_review_success(client: AsyncClient, db_session: AsyncSession)
 
 @pytest.mark.asyncio
 async def test_add_review_product_not_found(client: AsyncClient, db_session: AsyncSession):
-    # Faqat User va Category yaratamiz, product_id=999 bo'lmaydi
+
     user = User(id=1, email="test@example.com", role="admin", auth_provider="local")
     db_session.add(user)
     await db_session.commit()

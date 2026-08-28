@@ -34,7 +34,7 @@ TestingSessionLocal = async_sessionmaker(
 class DummyUser:
     id: int = 1
     email: str = "test@example.com"
-    role: str = "admin"  # <-- Admin huquqi qo'shildi
+    role: str = "admin"
 
 
 @pytest_asyncio.fixture(scope="function", autouse=True)

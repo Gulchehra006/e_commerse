@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.products import Product
 from app.models.favourite import Favourite
-from app.models.category import Category  # <-- Category modelini to'g'ri import qiling
-from app.models.users import User          # <-- User modelini to'g'ri import qiling
+from app.models.category import Category
+from app.models.users import User
 
 
 async def setup_test_data(db_session: AsyncSession, product_id: int = 1):
