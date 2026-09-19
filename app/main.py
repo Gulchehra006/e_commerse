@@ -2,6 +2,7 @@ import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi_pagination import add_pagination
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from app.database.connection import engine
 from app.database.base import Base
@@ -32,6 +33,13 @@ app = FastAPI(
 )
 
 app.add_middleware(SessionMiddleware, secret_key=os.getenv("SECRET_KEY"))
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+)
 
 app.include_router(local_auth_router)
 app.include_router(google_auth_router)
