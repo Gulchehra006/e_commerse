@@ -1,4 +1,7 @@
 from pydantic import BaseModel, Field,ConfigDict
+from app.schemas.media import ResponseMedia
+from app.schemas.category import ResponseCategory
+
 
 class CreateProduct(BaseModel):
     name: str
@@ -21,5 +24,7 @@ class ResponseProduct(BaseModel):
     price: int
     is_stock: bool
     category_id: int
+    medias: list[ResponseMedia]
+    category: ResponseCategory
 
     model_config = ConfigDict(from_attributes=True)

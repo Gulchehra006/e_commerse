@@ -4,6 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi_pagination.ext.sqlalchemy import apaginate
 from fastapi_pagination import Page
+from sqlalchemy.orm import selectinload
+
 from app.database.connection import get_db
 from app.models.products import Product
 from app.schemas.products import CreateProduct, UpdateProduct, ResponseProduct
@@ -39,7 +41,7 @@ current_user = Depends(get_current_user)):
 
 @router.get('/', response_model=Page[ResponseProduct])
 async def get_products(db: Annotated[AsyncSession, Depends(get_db)]):
-    query = select(Product)
+    query = select(Product).options(selectinload(Product.medias), selectinload(Product.category))
     return await apaginate(db, query)
 
 
